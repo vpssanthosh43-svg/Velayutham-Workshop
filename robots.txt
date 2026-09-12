@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://vpssanthosh43-svg.github.io/Velayutham-Workshop/sitemap.xml
