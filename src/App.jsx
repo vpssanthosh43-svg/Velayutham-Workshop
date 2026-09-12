@@ -10,7 +10,7 @@ import Business from "./pages/Business";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Velayutham-Workshop">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
