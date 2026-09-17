@@ -2,9 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Bike, Phone, MessageCircle, MapPin, Clock, Navigation } from 'lucide-react';
 import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
+import { createTamilServiceInquiryMessage, createWhatsAppUrl } from '../whatsapp';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
+  const navLinks = [
+    { key: 'home', href: '#home' },
+    { key: 'about', href: '#about' },
+    { key: 'services', href: '#services' },
+    { key: 'pricing', href: '#pricing' },
+    { key: 'reviews', href: '#reviews' },
+    { key: 'contact', href: '#contact' },
+  ];
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
@@ -27,9 +38,7 @@ const Footer = () => {
               </div>
               <h3 className="text-xl font-bold">{shopInfo.name}</h3>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed text-sm">
-              Your trusted neighborhood bike mechanics. Honest service at fair prices.
-            </p>
+            <p className="text-gray-400 mb-6 leading-relaxed text-sm">{t('footer.description')}</p>
             <a
               href={shopInfo.googleMapsLink}
               target="_blank"
@@ -37,7 +46,7 @@ const Footer = () => {
               className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 transition-colors text-sm group"
             >
               <Navigation className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              Get Directions
+              {t('footer.getDirections')}
             </a>
           </motion.div>
 
@@ -47,23 +56,13 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
-              {[
-                { name: 'Home', href: '#home' },
-                { name: 'About Us', href: '#about' },
-                { name: 'Services', href: '#services' },
-                { name: 'Pricing', href: '#pricing' },
-                { name: 'Reviews', href: '#reviews' },
-                { name: 'Contact', href: '#contact' },
-              ].map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm flex items-center gap-2 group"
-                  >
+              {navLinks.map((link) => (
+                <li key={link.key}>
+                  <a href={link.href} className="text-gray-400 hover:text-orange-400 transition-colors text-sm flex items-center gap-2 group">
                     <span className="w-1 h-1 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {link.name}
+                    {t(`nav.${link.key}`)}
                   </a>
                 </li>
               ))}
@@ -76,16 +75,9 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-lg font-semibold mb-4">Our Services</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.services')}</h3>
             <ul className="space-y-3">
-              {[
-                'General Service',
-                'Engine Repair',
-                'Oil Change',
-                'Brake Service',
-                'Tyre Service',
-                'Electrical Work',
-              ].map((service) => (
+              {t('footer.serviceList').map((service) => (
                 <li key={service} className="text-gray-400 text-sm flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-gradient-to-r from-orange-500 to-yellow-400 rounded-full" />
                   {service}
@@ -100,13 +92,10 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.contactUs')}</h3>
             <ul className="space-y-4">
               <li>
-                <a
-                  href={`tel:${shopInfo.phone}`}
-                  className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group"
-                >
+                <a href={`tel:${shopInfo.phone}`} className="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors group">
                   <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-2 rounded-lg group-hover:scale-110 transition-transform">
                     <Phone className="w-4 h-4 text-white" />
                   </div>
@@ -115,7 +104,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href={`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}`}
+                  href={createWhatsAppUrl(createTamilServiceInquiryMessage({}))}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-gray-400 hover:text-green-400 transition-colors group"
@@ -136,9 +125,7 @@ const Footer = () => {
                 <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-2 rounded-lg">
                   <Clock className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-400 text-sm">
-                  Open 7 Days: {shopInfo.openingHours.weekdays}
-                </span>
+                <span className="text-gray-400 text-sm">{t('contact.open7Days')}: {shopInfo.openingHours.weekdays}</span>
               </li>
             </ul>
           </motion.div>
@@ -149,11 +136,9 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 safe-bottom">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-500 text-sm text-center sm:text-left">
-              &copy; {currentYear} {shopInfo.name}. All rights reserved.
+              &copy; {currentYear} {shopInfo.name}. {t('footer.rights')}
             </p>
-            <p className="text-gray-500 text-sm">
-              Your Trusted Bike Service Partner
-            </p>
+            <p className="text-gray-500 text-sm">{t('footer.partner')}</p>
           </div>
         </div>
       </div>

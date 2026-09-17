@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, X, CheckCircle } from 'lucide-react';
-import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
+import { createTamilBookingMessage, createWhatsAppUrl } from '../whatsapp';
+
+const serviceOptions = [
+  'services.general',
+  'services.engineRepair',
+  'services.oilChange',
+  'services.brakeService',
+  'services.tyreService',
+  'services.electricalWork',
+  'services.other',
+];
 
 const FloatingBookingButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +23,7 @@ const FloatingBookingButton = () => {
     date: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,10 +31,7 @@ const FloatingBookingButton = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = encodeURIComponent(
-      `Hi, I want to book a service.%0A%0AName: ${formData.name}%0APhone: ${formData.phone}%0AService: ${formData.service}%0ADate: ${formData.date}`
-    );
-    window.open(`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${text}`, '_blank');
+    window.open(createWhatsAppUrl(createTamilBookingMessage(formData)), '_blank', 'noopener,noreferrer');
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
@@ -41,6 +50,7 @@ const FloatingBookingButton = () => {
         className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-orange-500 text-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
+        aria-label={t('booking.quickBooking')}
       >
         <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
       </motion.button>
@@ -63,10 +73,11 @@ const FloatingBookingButton = () => {
             >
               <div className="bg-gradient-to-r from-primary to-orange-500 p-5">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-white">Quick Booking</h3>
+                  <h3 className="text-xl font-bold text-white">{t('booking.quickBooking')}</h3>
                   <button
                     onClick={() => setIsOpen(false)}
                     className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/20 transition-colors"
+                    aria-label={t('common.close')}
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -76,7 +87,7 @@ const FloatingBookingButton = () => {
               {isSubmitted ? (
                 <div className="p-8 text-center">
                   <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                  <p className="text-lg font-semibold text-dark">Booking Sent!</p>
+                  <p className="text-lg font-semibold text-dark">{t('booking.bookingSent')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="p-5 space-y-4">
@@ -86,8 +97,9 @@ const FloatingBookingButton = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    placeholder="Your Name"
+                    placeholder={t('booking.yourName')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={t('booking.yourName')}
                   />
                   <input
                     type="tel"
@@ -95,8 +107,9 @@ const FloatingBookingButton = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    placeholder="Phone Number"
+                    placeholder={t('booking.phoneNumber')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={t('booking.phoneNumber')}
                   />
                   <select
                     name="service"
@@ -104,13 +117,12 @@ const FloatingBookingButton = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={t('booking.selectService')}
                   >
-                    <option value="">Select Service</option>
-                    <option value="General Service">General Service</option>
-                    <option value="Engine Repair">Engine Repair</option>
-                    <option value="Oil Change">Oil Change</option>
-                    <option value="Brake Service">Brake Service</option>
-                    <option value="Other">Other</option>
+                    <option value="">{t('booking.selectService')}</option>
+                    {serviceOptions.map((service) => (
+                      <option key={service} value={service}>{t(service)}</option>
+                    ))}
                   </select>
                   <input
                     type="date"
@@ -120,12 +132,10 @@ const FloatingBookingButton = () => {
                     required
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                    aria-label={t('bookingModal.preferredDate')}
                   />
-                  <button
-                    type="submit"
-                    className="w-full btn-primary py-3"
-                  >
-                    Book via WhatsApp
+                  <button type="submit" className="w-full btn-primary py-3">
+                    {t('booking.bookViaWhatsapp')}
                   </button>
                 </form>
               )}

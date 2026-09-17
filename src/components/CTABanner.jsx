@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MessageCircle } from 'lucide-react';
 import { shopInfo } from '../data/shopInfo';
+import { createTamilBookingMessage, createWhatsAppUrl } from '../whatsapp';
 
 const CTABanner = () => {
   return (
@@ -51,7 +52,7 @@ const CTABanner = () => {
               Call Us Now
             </motion.a>
             <motion.a
-              href={`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=Hello! I want to book bike service.`}
+              href={createWhatsAppUrl(createTamilBookingMessage({}))}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 min-h-[52px] relative overflow-hidden group"

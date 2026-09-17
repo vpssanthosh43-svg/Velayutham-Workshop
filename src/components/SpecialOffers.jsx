@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Tag, Gift, Percent, Clock } from 'lucide-react';
-import { shopInfo } from '../data/shopInfo';
+import { createWhatsAppUrl } from '../whatsapp';
 
 const offers = [
   {
@@ -87,7 +87,7 @@ const SpecialOffers = () => {
           className="text-center mt-8"
         >
           <a
-            href={`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=Hello! I want to know about special offers.`}
+            href={createWhatsAppUrl('வணக்கம், சிறப்பு சலுகைகள் குறித்து தெரிந்துகொள்ள விரும்புகிறேன்.')}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 min-h-[44px]"

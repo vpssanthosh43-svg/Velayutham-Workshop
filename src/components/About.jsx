@@ -1,34 +1,36 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Clock, BadgeCheck, HeartHandshake } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+  const { t } = useLanguage();
   const features = [
     {
       icon: ShieldCheck,
-      title: 'Honest Service',
-      description: 'No hidden charges. We explain the problem and cost before starting work.',
+      title: 'about.honest',
+      description: 'about.honestDesc',
       color: 'from-blue-500 to-cyan-400',
       bgColor: 'bg-blue-50',
     },
     {
       icon: Clock,
-      title: '15+ Years Experience',
-      description: 'Our mechanics have years of experience fixing all types of bikes.',
+      title: 'about.experience',
+      description: 'about.experienceDesc',
       color: 'from-orange-500 to-yellow-400',
       bgColor: 'bg-orange-50',
     },
     {
       icon: BadgeCheck,
-      title: 'Quality Parts',
-      description: 'We use only genuine spare parts that last longer.',
+      title: 'about.quality',
+      description: 'about.qualityDesc',
       color: 'from-green-500 to-emerald-400',
       bgColor: 'bg-green-50',
     },
     {
       icon: HeartHandshake,
-      title: 'Customer First',
-      description: 'Your happiness is our goal. We work until you are satisfied.',
+      title: 'about.customer',
+      description: 'about.customerDesc',
       color: 'from-purple-500 to-pink-400',
       bgColor: 'bg-purple-50',
     },
@@ -49,16 +51,14 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="section-title">Why Customers Trust Us</h2>
-          <p className="section-subtitle">
-            We are your neighborhood bike mechanics. Simple, honest, and reliable service.
-          </p>
+          <h2 className="section-title">{t('about.title')}</h2>
+          <p className="section-subtitle">{t('about.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {features.map((feature, index) => (
             <motion.div
-              key={index}
+              key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -72,8 +72,8 @@ const About = () => {
               >
                 <feature.icon className="w-8 h-8 text-white" />
               </motion.div>
-              <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">{feature.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+              <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">{t(feature.title)}</h3>
+              <p className="text-gray-600 leading-relaxed">{t(feature.description)}</p>
             </motion.div>
           ))}
         </div>

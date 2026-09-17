@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { IndianRupee, Check, Phone, Sparkles, Crown } from 'lucide-react';
-import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
+import { createTamilBookingMessage, createWhatsAppUrl } from '../whatsapp';
 
 const Pricing = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const { t } = useLanguage();
+  const whatsappUrl = createWhatsAppUrl(
+    createTamilBookingMessage({ service: 'services.general' })
+  );
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-gray-50 via-blue-50 to-orange-50 relative overflow-hidden" id="pricing">
@@ -21,10 +26,8 @@ const Pricing = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="section-title">Simple & Transparent Pricing</h2>
-          <p className="section-subtitle">
-            No surprises. Know the cost before we start any work.
-          </p>
+          <h2 className="section-title">{t('pricing.title')}</h2>
+          <p className="section-subtitle">{t('pricing.subtitle')}</p>
         </motion.div>
 
         <div className="max-w-lg mx-auto">
@@ -45,36 +48,29 @@ const Pricing = () => {
               animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
             >
               <Crown className="w-4 h-4" />
-              Best Value
+              {t('pricing.bestValue')}
               <Sparkles className="w-4 h-4" />
             </motion.div>
 
             <div className="text-center mb-8 pt-4">
-              <h3 className="text-2xl sm:text-3xl font-bold text-dark mb-2">General Service</h3>
-              <p className="text-gray-500 mb-6">Complete check-up and maintenance for your bike</p>
+              <h3 className="text-2xl sm:text-3xl font-bold text-dark mb-2">{t('pricing.generalService')}</h3>
+              <p className="text-gray-500 mb-6">{t('pricing.description')}</p>
               <motion.div 
                 className="flex items-center justify-center gap-1"
                 animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
               >
                 <IndianRupee className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                 <span className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">350</span>
-                <span className="text-gray-400 text-lg">onwards</span>
+                <span className="text-gray-400 text-lg">{t('pricing.onwards')}</span>
               </motion.div>
             </div>
 
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-8" />
 
             <ul className="space-y-4 mb-8">
-              {[
-                'Full bike inspection',
-                'Engine oil change',
-                'Chain cleaning & lubrication',
-                'Brake adjustment',
-                'Tyre pressure check',
-                'Lights & electrical check',
-              ].map((feature, i) => (
+              {t('pricing.features').map((feature, i) => (
                 <motion.li 
-                  key={i} 
+                  key={`${feature}-${i}`}
                   className="flex items-center gap-3"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -89,14 +85,14 @@ const Pricing = () => {
             </ul>
 
             <a
-              href={`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=Hello! I want to book General Service.`}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-semibold transition-all duration-300 min-h-[52px] bg-gradient-to-r from-primary to-orange-500 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 relative overflow-hidden group"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               <Phone className="w-5 h-5" />
-              Book Service Now
+              {t('pricing.bookNow')}
             </a>
           </motion.div>
         </div>
@@ -107,7 +103,7 @@ const Pricing = () => {
           viewport={{ once: true }}
           className="text-center text-gray-500 mt-8 text-sm"
         >
-          * Final price depends on bike model and condition. We will confirm before starting work.
+          {t('pricing.priceNote')}
         </motion.p>
       </div>
     </section>

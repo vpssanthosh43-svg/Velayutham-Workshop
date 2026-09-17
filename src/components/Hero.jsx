@@ -2,8 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MessageCircle, Navigation, Star, Shield, Award, Sparkles } from 'lucide-react';
 import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
+import { createTamilServiceInquiryMessage, createWhatsAppUrl } from '../whatsapp';
 
 const Hero = () => {
+  const { t } = useLanguage();
+  const whatsappUrl = createWhatsAppUrl(
+    createTamilServiceInquiryMessage({})
+  );
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden pt-16">
       <div className="absolute inset-0">
@@ -24,7 +31,7 @@ const Hero = () => {
         >
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full mb-6 border border-white/20">
             <Award className="w-4 h-4 text-orange-400" />
-            <span className="text-sm font-medium">Trusted by 5000+ Customers</span>
+            <span className="text-sm font-medium">{t('hero.trustedCustomers')}</span>
             <Sparkles className="w-4 h-4 text-yellow-400" />
           </div>
           
@@ -33,11 +40,11 @@ const Hero = () => {
           </h1>
           
           <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-orange-400 mb-4 sm:mb-6">
-            {shopInfo.tagline}
+            {t('hero.tagline')}
           </p>
           
           <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
-            Expert bike service at honest prices. We fix your bike right the first time, every time.
+            {t('hero.description')}
           </p>
         </motion.div>
 
@@ -49,14 +56,14 @@ const Hero = () => {
         >
           <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-sm font-medium">4.9 Star Rating</span>
+            <span className="text-sm font-medium">{t('hero.rating')}</span>
           </div>
           <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
             <Shield className="w-4 h-4 text-green-400" />
-            <span className="text-sm font-medium">30-Day Warranty</span>
+            <span className="text-sm font-medium">{t('hero.warranty')}</span>
           </div>
           <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-            <span className="text-sm font-medium">Free Pickup & Drop</span>
+            <span className="text-sm font-medium">{t('hero.freePickupDrop')}</span>
           </div>
         </motion.div>
 
@@ -71,16 +78,16 @@ const Hero = () => {
             className="btn-primary text-base sm:text-lg px-8 py-4 w-full sm:w-auto min-h-[52px]"
           >
             <Phone className="w-5 h-5" />
-            Call Us Now
+            {t('hero.callNow')}
           </a>
           <a
-            href={`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=Hello! I need bike service.`}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary bg-gradient-to-r from-green-600 to-green-700 text-base sm:text-lg px-8 py-4 w-full sm:w-auto min-h-[52px]"
           >
             <MessageCircle className="w-5 h-5" />
-            WhatsApp Us
+            {t('hero.whatsapp')}
           </a>
           <a
             href={shopInfo.googleMapsLink}
@@ -89,7 +96,7 @@ const Hero = () => {
             className="btn-secondary text-base sm:text-lg px-8 py-4 w-full sm:w-auto min-h-[52px]"
           >
             <Navigation className="w-5 h-5" />
-            Find Us on Map
+            {t('hero.findUs')}
           </a>
         </motion.div>
 

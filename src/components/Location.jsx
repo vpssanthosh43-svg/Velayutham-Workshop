@@ -2,8 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Clock } from 'lucide-react';
 import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
 
 const Location = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-12 sm:py-16 md:py-24 bg-light" id="location">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,10 +17,8 @@ const Location = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <h2 className="section-title">Visit Us</h2>
-          <p className="section-subtitle">
-            Find us at our workshop. We are conveniently located and ready to serve you.
-          </p>
+          <h2 className="section-title">{t('location.title')}</h2>
+          <p className="section-subtitle">{t('location.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-start">
@@ -33,7 +34,7 @@ const Location = () => {
                 <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-lg sm:text-xl font-bold text-dark mb-1">Our Address</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-dark mb-1">{t('location.address')}</h3>
                 <p className="text-gray-600 text-sm sm:text-base">{shopInfo.address}</p>
               </div>
             </div>
@@ -43,10 +44,10 @@ const Location = () => {
                 <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </div>
               <div>
-                <h3 className="text-lg sm:text-xl font-bold text-dark mb-1">Opening Hours</h3>
-                <p className="text-gray-600 text-sm sm:text-base">Weekdays: {shopInfo.openingHours.weekdays}</p>
-                <p className="text-gray-600 text-sm sm:text-base">Saturday: {shopInfo.openingHours.saturday}</p>
-                <p className="text-gray-600 text-sm sm:text-base">Sunday: {shopInfo.openingHours.sunday}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-dark mb-1">{t('location.openingHours')}</h3>
+                <p className="text-gray-600 text-sm sm:text-base">{t('location.weekdays')}: {shopInfo.openingHours.weekdays}</p>
+                <p className="text-gray-600 text-sm sm:text-base">{t('location.saturday')}: {shopInfo.openingHours.saturday}</p>
+                <p className="text-gray-600 text-sm sm:text-base">{t('location.sunday')}: {shopInfo.openingHours.sunday}</p>
               </div>
             </div>
 
@@ -57,7 +58,7 @@ const Location = () => {
               className="btn-primary w-full sm:w-auto min-h-[44px]"
             >
               <Navigation className="w-5 h-5" />
-              Get Directions
+              {t('location.getDirections')}
             </a>
           </motion.div>
 
@@ -69,7 +70,7 @@ const Location = () => {
             className="rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-gray-100"
           >
             <iframe
-              title="Velayutham Auto Works Location"
+              title={shopInfo.name}
               src={shopInfo.googleMapsEmbed}
               width="100%"
               height="400"

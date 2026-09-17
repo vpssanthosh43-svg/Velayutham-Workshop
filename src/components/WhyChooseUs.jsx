@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, CheckCircle, IndianRupee, Clock } from 'lucide-react';
-import { whyChooseUs } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
 
 const iconMap = {
   Users,
@@ -10,7 +10,12 @@ const iconMap = {
   Clock,
 };
 
+const iconKeys = ['Users', 'CheckCircle', 'IndianRupee', 'Clock'];
+
 const WhyChooseUs = () => {
+  const { t } = useLanguage();
+  const items = t('whyChooseUs.items');
+
   return (
     <section className="py-12 sm:py-16 md:py-24 bg-white" id="why-us">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,18 +26,16 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <h2 className="section-title">Why Choose Us</h2>
-          <p className="section-subtitle">
-            Here is why thousands of customers trust us with their bikes.
-          </p>
+          <h2 className="section-title">{t('whyChooseUs.title')}</h2>
+          <p className="section-subtitle">{t('whyChooseUs.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {whyChooseUs.map((item, index) => {
-            const IconComponent = iconMap[item.icon] || CheckCircle;
+          {items.map((item, index) => {
+            const IconComponent = iconMap[iconKeys[index]] || CheckCircle;
             return (
               <motion.div
-                key={index}
+                key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

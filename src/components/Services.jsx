@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Wrench, Settings, Droplet, Shield, Circle, Zap, Hammer } from 'lucide-react';
-import { services } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
 
 const iconMap = {
   Wrench,
@@ -25,6 +25,8 @@ const colorMap = {
 
 const Services = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { t } = useLanguage();
+  const translatedServices = t('services.items');
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden" id="services">
@@ -41,20 +43,19 @@ const Services = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="section-title">What We Do</h2>
-          <p className="section-subtitle">
-            All bike services under one roof. From oil change to engine repair.
-          </p>
+          <h2 className="section-title">{t('services.title')}</h2>
+          <p className="section-subtitle">{t('services.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {services.map((service, index) => {
-            const IconComponent = iconMap[service.icon] || Wrench;
-            const gradient = colorMap[service.icon] || 'from-gray-500 to-gray-400';
+          {translatedServices.map((service, index) => {
+            const iconKey = ['Wrench', 'Settings', 'Droplet', 'Shield', 'Circle', 'Zap', 'Hammer'][index];
+            const IconComponent = iconMap[iconKey] || Wrench;
+            const gradient = colorMap[iconKey] || 'from-gray-500 to-gray-400';
             
             return (
               <motion.div
-                key={index}
+                key={`${iconKey}-${service.title}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

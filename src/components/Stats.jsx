@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Award, Users, Wrench, ThumbsUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const stats = [
-  { icon: Users, value: 5000, suffix: '+', label: 'Happy Customers', color: 'from-blue-500 to-cyan-400' },
-  { icon: Wrench, value: 12000, suffix: '+', label: 'Bikes Serviced', color: 'from-orange-500 to-yellow-400' },
-  { icon: Award, value: 15, suffix: '+', label: 'Years Experience', color: 'from-purple-500 to-pink-400' },
-  { icon: ThumbsUp, value: 4.9, suffix: '/5', label: 'Google Rating', color: 'from-green-500 to-emerald-400', isDecimal: true },
+  { icon: Users, value: 5000, suffix: '+', label: 'stats.customers', color: 'from-blue-500 to-cyan-400' },
+  { icon: Wrench, value: 12000, suffix: '+', label: 'stats.bikes', color: 'from-orange-500 to-yellow-400' },
+  { icon: Award, value: 15, suffix: '+', label: 'stats.years', color: 'from-purple-500 to-pink-400' },
+  { icon: ThumbsUp, value: 4.9, suffix: '/5', label: 'stats.rating', color: 'from-green-500 to-emerald-400', isDecimal: true },
 ];
 
 const Counter = ({ value, suffix, isDecimal }) => {
@@ -44,6 +45,8 @@ const Counter = ({ value, suffix, isDecimal }) => {
 };
 
 const Stats = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-16 sm:py-20 bg-gradient-to-r from-primary via-blue-700 to-primary relative overflow-hidden">
       <div className="absolute inset-0">
@@ -55,7 +58,7 @@ const Stats = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat, index) => (
             <motion.div
-              key={index}
+              key={stat.label}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -68,7 +71,7 @@ const Stats = () => {
               <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-1">
                 <Counter value={stat.value} suffix={stat.suffix} isDecimal={stat.isDecimal} />
               </div>
-              <p className="text-white/80 text-sm sm:text-base">{stat.label}</p>
+              <p className="text-white/80 text-sm sm:text-base">{t(stat.label)}</p>
             </motion.div>
           ))}
         </div>

@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Phone, User, MessageSquare, CheckCircle } from 'lucide-react';
-import { shopInfo } from '../data/shopInfo';
+import { useLanguage } from '../context/LanguageContext';
+import { createTamilBookingMessage, createWhatsAppUrl } from '../whatsapp';
+
+const serviceOptions = [
+  'services.general',
+  'services.engineRepair',
+  'services.oilChange',
+  'services.brakeService',
+  'services.tyreService',
+  'services.electricalWork',
+  'services.other',
+];
+
+const timeOptions = ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm'];
 
 const BookingModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +26,7 @@ const BookingModal = ({ isOpen, onClose }) => {
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,10 +34,7 @@ const BookingModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = encodeURIComponent(
-      `Hi, I want to book a service.%0A%0AName: ${formData.name}%0APhone: ${formData.phone}%0AService: ${formData.service}%0ADate: ${formData.date}%0ATime: ${formData.time}%0AMessage: ${formData.message}`
-    );
-    window.open(`https://wa.me/${shopInfo.whatsapp.replace(/[^0-9]/g, '')}?text=${text}`, '_blank');
+    window.open(createWhatsAppUrl(createTamilBookingMessage(formData)), '_blank', 'noopener,noreferrer');
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
@@ -31,12 +42,6 @@ const BookingModal = ({ isOpen, onClose }) => {
       setFormData({ name: '', phone: '', service: '', date: '', time: '', message: '' });
     }, 2000);
   };
-
-  const timeSlots = [
-    '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
-    '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM',
-    '4:00 PM', '5:00 PM', '6:00 PM',
-  ];
 
   return (
     <AnimatePresence>
@@ -58,12 +63,13 @@ const BookingModal = ({ isOpen, onClose }) => {
             <div className="bg-gradient-to-r from-primary to-orange-500 p-6 rounded-t-3xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Book a Service</h3>
-                  <p className="text-white/80 text-sm">Fill the form and we will confirm your booking</p>
+                  <h3 className="text-2xl font-bold text-white">{t('bookingModal.title')}</h3>
+                  <p className="text-white/80 text-sm">{t('bookingModal.subtitle')}</p>
                 </div>
                 <button
                   onClick={onClose}
                   className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/20 transition-colors"
+                  aria-label={t('common.close')}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -79,15 +85,15 @@ const BookingModal = ({ isOpen, onClose }) => {
                 >
                   <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 </motion.div>
-                <h4 className="text-xl font-bold text-dark mb-2">Booking Confirmed!</h4>
-                <p className="text-gray-600">We will contact you shortly to confirm your appointment.</p>
+                <h4 className="text-xl font-bold text-dark mb-2">{t('bookingModal.bookingConfirmed')}</h4>
+                <p className="text-gray-600">{t('bookingModal.weWillContact')}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                     <User className="w-4 h-4" />
-                    Your Name
+                    {t('bookingModal.yourName')}
                   </label>
                   <input
                     type="text"
@@ -96,14 +102,14 @@ const BookingModal = ({ isOpen, onClose }) => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Enter your name"
+                    placeholder={t('bookingModal.namePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                     <Phone className="w-4 h-4" />
-                    Phone Number
+                    {t('bookingModal.phoneNumber')}
                   </label>
                   <input
                     type="tel"
@@ -112,14 +118,14 @@ const BookingModal = ({ isOpen, onClose }) => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Enter your phone number"
+                    placeholder={t('bookingModal.phonePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                     <MessageSquare className="w-4 h-4" />
-                    Service Needed
+                    {t('bookingModal.serviceNeeded')}
                   </label>
                   <select
                     name="service"
@@ -128,14 +134,10 @@ const BookingModal = ({ isOpen, onClose }) => {
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
-                    <option value="">Select a service</option>
-                    <option value="General Service">General Service</option>
-                    <option value="Engine Repair">Engine Repair</option>
-                    <option value="Oil Change">Oil Change</option>
-                    <option value="Brake Service">Brake Service</option>
-                    <option value="Tyre Service">Tyre Service</option>
-                    <option value="Electrical Work">Electrical Work</option>
-                    <option value="Other">Other</option>
+                    <option value="">{t('bookingModal.selectService')}</option>
+                    {serviceOptions.map((service) => (
+                      <option key={service} value={service}>{t(service)}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -143,7 +145,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                   <div>
                     <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                       <Calendar className="w-4 h-4" />
-                      Preferred Date
+                      {t('bookingModal.preferredDate')}
                     </label>
                     <input
                       type="date"
@@ -159,7 +161,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                   <div>
                     <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                       <Clock className="w-4 h-4" />
-                      Preferred Time
+                      {t('bookingModal.preferredTime')}
                     </label>
                     <select
                       name="time"
@@ -168,9 +170,9 @@ const BookingModal = ({ isOpen, onClose }) => {
                       required
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
-                      <option value="">Select time</option>
-                      {timeSlots.map((slot) => (
-                        <option key={slot} value={slot}>{slot}</option>
+                      <option value="">{t('bookingModal.selectTime')}</option>
+                      {timeOptions.map((slot) => (
+                        <option key={slot} value={slot}>{t(`bookingModal.times.${slot}`)}</option>
                       ))}
                     </select>
                   </div>
@@ -179,7 +181,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                     <MessageSquare className="w-4 h-4" />
-                    Additional Message (Optional)
+                    {t('bookingModal.additionalMessage')}
                   </label>
                   <textarea
                     name="message"
@@ -187,15 +189,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                     onChange={handleChange}
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                    placeholder="Describe any specific issues..."
+                    placeholder={t('bookingModal.messagePlaceholder')}
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full btn-primary py-4 text-lg"
-                >
-                  Book Appointment
+                <button type="submit" className="w-full btn-primary py-4 text-lg">
+                  {t('bookingModal.bookAppointment')}
                 </button>
               </form>
             )}
