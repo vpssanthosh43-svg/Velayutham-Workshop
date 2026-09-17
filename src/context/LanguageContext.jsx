@@ -257,6 +257,8 @@ const translations = {
       placeholder: 'Type your question...',
       openLabel: 'Open chat',
       closeLabel: 'Close chat',
+      muteLabel: 'Mute voice',
+      unmuteLabel: 'Unmute voice',
     },
     booking: {
       quickBooking: 'Quick Booking',
@@ -551,6 +553,8 @@ const translations = {
       placeholder: 'உங்கள் கேள்வியை வழங்குக',
       openLabel: 'அரட்டைத் திறக்கவும்',
       closeLabel: 'அரட்டை மூடுங்கள்',
+      muteLabel: 'குரலை முடக்கு',
+      unmuteLabel: 'குரலை திறக்கு',
     },
     booking: {
       quickBooking: 'விரைவான பதிவு',

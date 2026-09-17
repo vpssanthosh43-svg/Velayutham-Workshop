@@ -6,6 +6,7 @@ import About from './components/About';
 import Services from './components/Services';
 import HowItWorks from './components/HowItWorks';
 import Pricing from './components/Pricing';
+import Reviews from './components/Reviews';
 import Highlights from './components/Highlights';
 import WhyChooseUs from './components/WhyChooseUs';
 import Location from './components/Location';
@@ -29,6 +30,7 @@ const App = () => {
         <Services />
         <HowItWorks />
         <Pricing />
+        <Reviews />
         <Highlights />
         <WhyChooseUs />
         <Location />
