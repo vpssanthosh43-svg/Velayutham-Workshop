@@ -246,6 +246,18 @@ const translations = {
       tooltip: 'Need help? Chat with us!',
       ariaLabel: 'Chat on WhatsApp',
     },
+    chatBot: {
+      title: 'Velayutham Auto Bot',
+      online: 'Online',
+      greeting: 'Hi! Ask me anything',
+      greetingSub: 'about our bike services',
+      typing: 'Typing...',
+      help: 'Need more help?',
+      helpWhatsApp: 'Chat on WhatsApp',
+      placeholder: 'Type your question...',
+      openLabel: 'Open chat',
+      closeLabel: 'Close chat',
+    },
     booking: {
       quickBooking: 'Quick Booking',
       yourName: 'Your Name',
@@ -527,6 +539,18 @@ const translations = {
     floatingWhatsapp: {
       tooltip: 'உதவி வேண்டுமா? எங்களுடன் பேசுங்கள்!',
       ariaLabel: 'WhatsApp மூலம் பேசவும்',
+    },
+    chatBot: {
+      title: 'வேலையுடம் ஆட்டோ பாட்',
+      online: 'இணைநிலையில்',
+      greeting: 'வணக்கம்! எந்தக் கேள்வியாலும்',
+      greetingSub: 'எங்கள் பைக் சேவைகளைப் பற்றி',
+      typing: 'எழுதுகிறது...',
+      help: 'மேலும் உதவி வேண்டுமா?',
+      helpWhatsApp: 'WhatsApp மூலம் பேசுங்கள்',
+      placeholder: 'உங்கள் கேள்வியை வழங்குக',
+      openLabel: 'அரட்டைத் திறக்கவும்',
+      closeLabel: 'அரட்டை மூடுங்கள்',
     },
     booking: {
       quickBooking: 'விரைவான பதிவு',

@@ -13,6 +13,7 @@ import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
+import ChatBot from './components/ChatBot';
 import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <ChatBot />
       <ScrollToTop />
     </div>
   );
