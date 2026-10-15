@@ -4,7 +4,7 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!google[0-9a-f]{16}\\.html).*)",
       "destination": "/index.html"
     }
   ]
