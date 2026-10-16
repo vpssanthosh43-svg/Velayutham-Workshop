@@ -2,11 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CreateWebsite from "./pages/CreateWebsite";
-import Preview from "./pages/Preview";
+import Register from "./pages/register";
+import CreateWebsite from "./pages/createwebsite";
+import Preview from "./pages/preview";
 import PosterGenerator from "./pages/PosterGenerator";
 import Business from "./pages/Business";
+import QRCodePage from "./pages/QRCode";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/preview" element={<Preview />} />
         <Route path="/poster" element={<PosterGenerator />} />
         <Route path="/business/:id" element={<Business />} />
+        <Route path="/qr" element={<QRCodePage />} />
       </Routes>
     </BrowserRouter>
   );
